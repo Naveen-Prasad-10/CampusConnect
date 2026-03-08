@@ -10,6 +10,7 @@ import re
 import uuid
 import random
 import logging
+import difflib
 from datetime import datetime
 from typing import Optional
 
@@ -51,10 +52,14 @@ EVENTS: list[dict] = [
     {
         "name": "Hackathon 2026",
         "date": "2026-03-10",
+        "time": "9:00 AM – 9:00 AM (next day)",
         "type": "tech",
         "registration": "open",
         "volunteer": "yes",
         "venue": "Main Auditorium",
+        "organizer": "CS Department & TechClub",
+        "capacity": "200 teams (2–4 members each)",
+        "prize": "₹50,000 total — 1st: ₹25,000 | 2nd: ₹15,000 | 3rd: ₹10,000",
         "description": (
             "A 24-hour coding marathon open to all students. "
             "Build innovative solutions to real-world problems and compete for ₹50,000 in prizes."
@@ -63,19 +68,27 @@ EVENTS: list[dict] = [
     {
         "name": "Music Night",
         "date": "2026-03-12",
+        "time": "6:00 PM – 9:30 PM",
         "type": "cultural",
         "registration": "closed",
         "volunteer": "no",
         "venue": "Open-Air Theatre",
+        "organizer": "Music Society",
+        "capacity": "Unlimited (open entry)",
+        "prize": "N/A",
         "description": "An evening of live performances by student bands and guest artists. Free entry for all.",
     },
     {
         "name": "AI & ML Workshop",
         "date": "2026-03-15",
+        "time": "10:00 AM – 4:00 PM",
         "type": "tech",
         "registration": "open",
         "volunteer": "yes",
         "venue": "Seminar Hall B",
+        "organizer": "AI Research Club",
+        "capacity": "60 seats",
+        "prize": "Certificate of Completion for all participants",
         "description": (
             "Hands-on workshop covering machine learning fundamentals, model training, and deployment. "
             "Laptop required."
@@ -84,10 +97,14 @@ EVENTS: list[dict] = [
     {
         "name": "Cultural Fest",
         "date": "2026-03-18",
+        "time": "10:00 AM – 8:00 PM",
         "type": "cultural",
         "registration": "open",
         "volunteer": "yes",
         "venue": "Campus Ground",
+        "organizer": "Student Cultural Committee",
+        "capacity": "500+ attendees",
+        "prize": "₹30,000 total across all competitions",
         "description": (
             "Annual inter-college cultural extravaganza featuring dance, drama, and art competitions. "
             "Cash prizes for winners."
@@ -96,55 +113,79 @@ EVENTS: list[dict] = [
     {
         "name": "Career Fair 2026",
         "date": "2026-03-20",
+        "time": "9:00 AM – 5:00 PM",
         "type": "career",
         "registration": "open",
         "volunteer": "no",
         "venue": "Exhibition Hall",
+        "organizer": "Placement Cell",
+        "capacity": "Open to all final & pre-final year students",
+        "prize": "N/A (job & internship offers)",
         "description": "Top recruiters across sectors visiting campus for placements and internship opportunities.",
     },
     {
         "name": "Photography Exhibition",
         "date": "2026-03-08",
+        "time": "10:00 AM – 6:00 PM",
         "type": "art",
         "registration": "closed",
         "volunteer": "yes",
         "venue": "Gallery Room 1",
+        "organizer": "Photography Club",
+        "capacity": "Walk-in, no limit",
+        "prize": "Best submission wins ₹5,000 + trophy",
         "description": "Showcasing student photography work on the theme 'Urban Life'. Open all day.",
     },
     {
         "name": "Robotics Demo Day",
         "date": "2026-03-08",
+        "time": "11:00 AM – 3:00 PM",
         "type": "tech",
         "registration": "open",
         "volunteer": "yes",
         "venue": "Engineering Block C",
+        "organizer": "Robotics Club",
+        "capacity": "15 competing teams + open audience",
+        "prize": "₹20,000 total — 1st: ₹10,000 | 2nd: ₹6,000 | 3rd: ₹4,000",
         "description": "Live demonstrations of student-built robots competing in an obstacle course.",
     },
     {
         "name": "Entrepreneurship Summit",
         "date": "2026-03-22",
+        "time": "9:30 AM – 5:30 PM",
         "type": "career",
         "registration": "open",
         "volunteer": "yes",
         "venue": "Conference Hall A",
+        "organizer": "E-Cell",
+        "capacity": "150 seats",
+        "prize": "Top 3 pitches get seed funding consideration + ₹15,000",
         "description": "Pitch your startup ideas to investors. Workshops on funding, branding, and product design.",
     },
     {
         "name": "Classical Dance Showcase",
         "date": "2026-03-25",
+        "time": "5:00 PM – 8:00 PM",
         "type": "cultural",
         "registration": "open",
         "volunteer": "yes",
         "venue": "Mini Auditorium",
+        "organizer": "Fine Arts Society",
+        "capacity": "300 seats",
+        "prize": "₹12,000 total across dance categories",
         "description": "Annual classical dance performances by students. Bharatanatyam, Kathak, and Mohiniyattam.",
     },
     {
         "name": "Cybersecurity Bootcamp",
         "date": "2026-03-28",
+        "time": "9:00 AM – 6:00 PM (2 days: Mar 28–29)",
         "type": "tech",
         "registration": "open",
         "volunteer": "no",
         "venue": "Lab Complex 2",
+        "organizer": "CyberSec Club & IT Department",
+        "capacity": "40 seats",
+        "prize": "Best CTF team wins ₹8,000 + internship referral",
         "description": (
             "Intensive two-day bootcamp on ethical hacking, CTF challenges, and network security fundamentals."
         ),
@@ -276,6 +317,77 @@ def detect_intents(text: str, top_n: int = 2) -> list[tuple[str, int]]:
     )
     return ranked[:top_n] if ranked else [("unknown", 0)]
 
+
+# Generic words that look like event references but carry no specific meaning.
+# These should NOT trigger event_detail — they route to 'upcoming' instead.
+GENERIC_EVENT_WORDS = {
+    "event", "events", "new events", "all events", "campus events",
+    "college events", "any events", "some events", "latest events",
+}
+
+# Words to strip from overlap comparison (noise/structural words)
+NOISE_WORDS = {
+    "event", "events", "the", "and", "for", "with", "that", "this",
+    "what", "when", "where", "how", "about", "tell", "show", "find",
+    "there", "happening", "going", "now", "today", "will", "can",
+    "are", "is", "a", "an", "any", "new", "all", "some", "latest",
+    "me", "us", "list", "give", "see",
+}
+
+
+def extract_entity_events(norm_text: str, events: list[dict]) -> list[dict]:
+    """
+    Identify which specific events the user is referring to.
+
+    Three strategies (in priority order):
+      1. Exact normalised name containment in message
+      2. Significant-word overlap between message and event name
+      3. Fuzzy match (difflib, cutoff 0.82) — catches typos / bare names like 'hackathon?'
+
+    Returns [] when the message only contains generic references (e.g. 'tell me about events').
+    """
+    words_in_msg = set(norm_text.split())
+
+    # If the entire message is generic words, don't extract any entity
+    meaningful_words = words_in_msg - NOISE_WORDS
+    if not meaningful_words:
+        return []
+
+    sig_msg_words = {w for w in meaningful_words if len(w) > 3}
+
+    matched = []
+    seen: set[str] = set()
+
+    for event in events:
+        if event["name"] in seen:
+            continue
+        name_norm = normalize(event["name"])
+        name_words = set(name_norm.split())
+        sig_name_words = {w for w in name_words if len(w) > 3 and w not in NOISE_WORDS}
+
+        # Strategy 1: full name in message
+        if name_norm in norm_text:
+            matched.append(event)
+            seen.add(event["name"])
+            continue
+
+        # Strategy 2: significant word overlap
+        if sig_msg_words and sig_name_words and (sig_msg_words & sig_name_words):
+            matched.append(event)
+            seen.add(event["name"])
+            continue
+
+        # Strategy 3: fuzzy match
+        if sig_name_words and sig_msg_words:
+            for word in sig_msg_words:
+                close = difflib.get_close_matches(word, sig_name_words, n=1, cutoff=0.82)
+                if close:
+                    matched.append(event)
+                    seen.add(event["name"])
+                    break
+
+    return matched
+
 # =============================================================================
 # CONTEXT HELPERS  —  read previous turns to understand follow-ups
 # =============================================================================
@@ -319,10 +431,14 @@ def _fmt_event(e: dict) -> dict:
     return {
         "name": e.get("name", ""),
         "date": e.get("date", ""),
+        "time": e.get("time", "TBD"),
         "type": e.get("type", ""),
         "registration": e.get("registration", ""),
         "volunteer": e.get("volunteer", ""),
         "venue": e.get("venue", "TBD"),
+        "organizer": e.get("organizer", ""),
+        "capacity": e.get("capacity", ""),
+        "prize": e.get("prize", ""),
         "description": e.get("description", ""),
     }
 
@@ -385,20 +501,31 @@ def build_response(
 ) -> dict:
     """
     Build a structured chatbot response.
-    Supports multi-intent (e.g. category_filter + registration).
+    Entity-first: extract named events before routing by intent.
     Returns: { "response", "events", "event_names" }
     """
     all_events = EVENTS
     norm_msg = normalize(message)
 
-    # Resolve primary (and optional secondary) intents
+    # Effective event pool (narrowed by context for follow-up questions)
+    followup = is_followup(message)
+    event_pool = get_context_scope(history, all_events) if followup else all_events
+
+    # ── Entity extraction (priority 1) ───────────────────────────────────────
+    # Find specific event(s) the user mentioned before we look at intent.
+    entity_events = extract_entity_events(norm_msg, event_pool)
+
+    # ── Intent resolution ─────────────────────────────────────────────────────
     primary_intent, primary_score = intents_ranked[0]
     secondary_intent = intents_ranked[1][0] if len(intents_ranked) > 1 else None
     secondary_score  = intents_ranked[1][1] if len(intents_ranked) > 1 else 0
 
-    # Effective event pool — narrows automatically for follow-ups
-    followup = is_followup(message)
-    event_pool = get_context_scope(history, all_events) if followup else all_events
+    # Entity-intent override: if we know WHICH event the user means but the
+    # classifier returned 'unknown' (no intent keywords in the message, e.g.
+    # bare 'hackathon?'), route to event_detail.
+    if entity_events and primary_intent == "unknown":
+        primary_intent = "event_detail"
+        primary_score = 1
 
     matched_events: list[dict] = []
     response_text = ""
@@ -462,15 +589,31 @@ def build_response(
 
     # ── Ongoing today ─────────────────────────────────────────────────────────
     elif primary_intent == "ongoing":
-        matched_events = [e for e in event_pool if e.get("date", "") == TODAY_STR]
-        count = len(matched_events)
-        response_text = _pick(
-            f"🔴 **{count} event(s) happening today** ({TODAY_STR}):",
-            f"📍 Today's live events ({TODAY_STR}) — there are **{count}**:",
-        ) if count else (
-            f"😕 Nothing is scheduled for today ({TODAY_STR}). "
-            "Try asking about *upcoming events* to plan ahead!"
-        )
+        if entity_events:
+            # User asked about a SPECIFIC event — answer about that event's status.
+            today_entities = [e for e in entity_events if e.get("date", "") == TODAY_STR]
+            if today_entities:
+                matched_events = today_entities
+                names = ", ".join(e["name"] for e in today_entities)
+                response_text = f"🔴 Yes! **{names}** is happening today ({TODAY_STR}):"
+            else:
+                # Event exists but is not today → tell the user when it IS
+                matched_events = entity_events
+                e0 = entity_events[0]
+                response_text = (
+                    f"📅 **{e0['name']}** is not happening today — "
+                    f"it's scheduled for **{e0['date']}**. Here are the details:"
+                )
+        else:
+            matched_events = [e for e in event_pool if e.get("date", "") == TODAY_STR]
+            count = len(matched_events)
+            response_text = _pick(
+                f"🔴 **{count} event(s) happening today** ({TODAY_STR}):",
+                f"📍 Today's live events ({TODAY_STR}) — there are **{count}**:",
+            ) if count else (
+                f"😕 Nothing is scheduled for today ({TODAY_STR}). "
+                "Try asking about *upcoming events* to plan ahead!"
+            )
 
     # ── Open registrations ◀ possibly combined with category ─────────────────
     elif primary_intent == "registration":
@@ -533,18 +676,9 @@ def build_response(
 
     # ── Event detail ──────────────────────────────────────────────────────────
     elif primary_intent == "event_detail":
-        # Match events whose name overlaps meaningfully with the user's message
-        words_in_msg = set(w for w in norm_msg.split() if len(w) > 3)
-        scored_events = []
-        for e in event_pool:
-            event_words = set(normalize(e["name"]).split())
-            overlap = len(words_in_msg & event_words)
-            if overlap:
-                scored_events.append((overlap, e))
-        scored_events.sort(key=lambda x: x[0], reverse=True)
-        matched_events = [e for _, e in scored_events]
-
-        if matched_events:
+        if entity_events:
+            # Specific event(s) identified — show them directly
+            matched_events = entity_events
             names = " & ".join(e["name"] for e in matched_events[:2])
             response_text = _pick(
                 f"🔍 Here's what I found about **{names}**:",
@@ -552,18 +686,25 @@ def build_response(
                 f"ℹ️ Sure! Here's the info on **{names}**:",
             )
         else:
-            # Graceful fallback — show everything
+            # No specific event detected — user asked generically
+            # (e.g. "tell me about events", "tell me about new events")
+            # Give them the full list instead of an error message.
             matched_events = list(event_pool)
-            response_text = (
-                "🔍 I couldn't pin down a specific event from that. "
-                "Here's everything on the calendar — try asking by name, like "
-                "*\"Tell me about the Hackathon\"*:"
+            count = len(matched_events)
+            response_text = _pick(
+                f"📅 Here are all **{count} event(s)** currently on the calendar:",
+                f"🗓️ Sure! Here's the full list of **{count} event(s)** I know about:",
+                f"Here's everything happening on campus — **{count} event(s)** in total:",
             )
 
     # ── Unknown / no match ────────────────────────────────────────────────────
     else:
-        # Check if user is asking a follow-up in context
-        if followup and last_bot_events(history):
+        if entity_events:
+            # Entity found but no clear intent — just show the event details
+            matched_events = entity_events
+            names = ", ".join(e["name"] for e in matched_events[:2])
+            response_text = f"ℹ️ Here's what I know about **{names}**:"
+        elif followup and last_bot_events(history):
             matched_events = get_context_scope(history, all_events)
             response_text = (
                 "🤔 I'm not 100% sure what you're asking, but here's what we were looking at:"

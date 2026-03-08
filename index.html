@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,25 +10,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     /* ─── Reset & Base ─────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
-      --bg:        #0d0f1a;
-      --surface:   #13162b;
-      --elevated:  #1b1f38;
-      --border:    rgba(255,255,255,0.07);
-      --accent:    #7c6ff7;
-      --accent-2:  #5b8cf7;
-      --glow:      rgba(124,111,247,0.35);
-      --text:      #e8eaf6;
-      --muted:     #7b82a8;
-      --bubble-u:  linear-gradient(135deg,#7c6ff7,#5b8cf7);
-      --bubble-b:  #1b1f38;
-      --radius:    18px;
+      --bg: #0d0f1a;
+      --surface: #13162b;
+      --elevated: #1b1f38;
+      --border: rgba(255, 255, 255, 0.07);
+      --accent: #7c6ff7;
+      --accent-2: #5b8cf7;
+      --glow: rgba(124, 111, 247, 0.35);
+      --text: #e8eaf6;
+      --muted: #7b82a8;
+      --bubble-u: linear-gradient(135deg, #7c6ff7, #5b8cf7);
+      --bubble-b: #1b1f38;
+      --radius: 18px;
       --transition: 0.25s ease;
     }
 
-    html, body { height: 100%; }
+    html,
+    body {
+      height: 100%;
+    }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -51,13 +61,42 @@
       animation: float 12s ease-in-out infinite alternate;
       z-index: 0;
     }
-    .bg-blob.a { width: 520px; height: 520px; background: #7c6ff7; top: -120px; left: -120px; animation-delay: 0s; }
-    .bg-blob.b { width: 400px; height: 400px; background: #5b8cf7; bottom: -80px; right: -80px; animation-delay: 3s; }
-    .bg-blob.c { width: 300px; height: 300px; background: #f76f9b; bottom: 30%; left: 5%; animation-delay: 6s; }
+
+    .bg-blob.a {
+      width: 520px;
+      height: 520px;
+      background: #7c6ff7;
+      top: -120px;
+      left: -120px;
+      animation-delay: 0s;
+    }
+
+    .bg-blob.b {
+      width: 400px;
+      height: 400px;
+      background: #5b8cf7;
+      bottom: -80px;
+      right: -80px;
+      animation-delay: 3s;
+    }
+
+    .bg-blob.c {
+      width: 300px;
+      height: 300px;
+      background: #f76f9b;
+      bottom: 30%;
+      left: 5%;
+      animation-delay: 6s;
+    }
 
     @keyframes float {
-      0%   { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(20px, 30px) scale(1.05); }
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(20px, 30px) scale(1.05);
+      }
     }
 
     /* ─── App shell ──────────────────────────────────────── */
@@ -74,7 +113,7 @@
       border: 1px solid var(--border);
       border-radius: 28px;
       overflow: hidden;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px var(--border);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border);
       backdrop-filter: blur(20px);
     }
 
@@ -90,10 +129,13 @@
     }
 
     .header-avatar {
-      width: 46px; height: 46px;
+      width: 46px;
+      height: 46px;
       border-radius: 14px;
       background: var(--bubble-u);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 22px;
       box-shadow: 0 0 20px var(--glow);
       flex-shrink: 0;
@@ -115,7 +157,8 @@
     }
 
     .status-dot {
-      width: 8px; height: 8px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: #4ade80;
       box-shadow: 0 0 8px #4ade80;
@@ -123,9 +166,17 @@
       margin-right: 5px;
       animation: pulse-dot 2s infinite;
     }
+
     @keyframes pulse-dot {
-      0%,100% { opacity:1; }
-      50%      { opacity:0.4; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
     }
 
     .header-badge {
@@ -133,8 +184,8 @@
       font-size: 11px;
       font-weight: 600;
       color: var(--accent);
-      background: rgba(124,111,247,0.12);
-      border: 1px solid rgba(124,111,247,0.3);
+      background: rgba(124, 111, 247, 0.12);
+      border: 1px solid rgba(124, 111, 247, 0.3);
       padding: 4px 10px;
       border-radius: 20px;
     }
@@ -149,7 +200,10 @@
       border-bottom: 1px solid var(--border);
       scrollbar-width: none;
     }
-    .chips-area::-webkit-scrollbar { display: none; }
+
+    .chips-area::-webkit-scrollbar {
+      display: none;
+    }
 
     .chip {
       flex-shrink: 0;
@@ -164,8 +218,9 @@
       transition: var(--transition);
       white-space: nowrap;
     }
+
     .chip:hover {
-      background: rgba(124,111,247,0.15);
+      background: rgba(124, 111, 247, 0.15);
       border-color: var(--accent);
       color: var(--text);
       transform: translateY(-1px);
@@ -181,9 +236,19 @@
       gap: 18px;
       scroll-behavior: smooth;
     }
-    .messages::-webkit-scrollbar { width: 4px; }
-    .messages::-webkit-scrollbar-track { background: transparent; }
-    .messages::-webkit-scrollbar-thumb { background: var(--elevated); border-radius: 4px; }
+
+    .messages::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .messages::-webkit-scrollbar-thumb {
+      background: var(--elevated);
+      border-radius: 4px;
+    }
 
     /* ─── Message rows ─────────────────────────────────────── */
     .msg-row {
@@ -192,21 +257,41 @@
       gap: 10px;
       animation: slideUp 0.3s ease;
     }
+
     @keyframes slideUp {
-      from { opacity:0; transform:translateY(14px); }
-      to   { opacity:1; transform:translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .msg-row.user { flex-direction: row-reverse; }
+
+    .msg-row.user {
+      flex-direction: row-reverse;
+    }
 
     .msg-avatar {
-      width: 34px; height: 34px;
+      width: 34px;
+      height: 34px;
       border-radius: 10px;
       flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 16px;
     }
-    .msg-avatar.bot  { background: linear-gradient(135deg,#7c6ff7,#5b8cf7); }
-    .msg-avatar.user { background: linear-gradient(135deg,#f76f9b,#f79b6f); }
+
+    .msg-avatar.bot {
+      background: linear-gradient(135deg, #7c6ff7, #5b8cf7);
+    }
+
+    .msg-avatar.user {
+      background: linear-gradient(135deg, #f76f9b, #f79b6f);
+    }
 
     .bubble {
       max-width: 72%;
@@ -216,17 +301,19 @@
       line-height: 1.6;
       position: relative;
     }
+
     .bubble.bot {
       background: var(--bubble-b);
       border: 1px solid var(--border);
       border-bottom-left-radius: 4px;
       color: var(--text);
     }
+
     .bubble.user {
       background: var(--bubble-u);
       border-bottom-right-radius: 4px;
       color: #fff;
-      box-shadow: 0 4px 24px rgba(124,111,247,0.35);
+      box-shadow: 0 4px 24px rgba(124, 111, 247, 0.35);
     }
 
     .bubble-time {
@@ -236,11 +323,16 @@
       display: block;
       text-align: right;
     }
-    .msg-row.bot-row .bubble-time { text-align: left; }
+
+    .msg-row.bot-row .bubble-time {
+      text-align: left;
+    }
 
     /* ─── Typing indicator ──────────────────────────────── */
     .typing-indicator {
-      display: flex; gap: 5px; align-items: center;
+      display: flex;
+      gap: 5px;
+      align-items: center;
       padding: 14px 17px;
       background: var(--bubble-b);
       border: 1px solid var(--border);
@@ -248,17 +340,36 @@
       border-bottom-left-radius: 4px;
       width: fit-content;
     }
+
     .dot {
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       background: var(--accent);
       border-radius: 50%;
       animation: bounce 1.2s infinite;
     }
-    .dot:nth-child(2) { animation-delay: 0.2s; }
-    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
     @keyframes bounce {
-      0%,80%,100% { transform: translateY(0); opacity:0.5; }
-      40%          { transform: translateY(-7px); opacity:1; }
+
+      0%,
+      80%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.5;
+      }
+
+      40% {
+        transform: translateY(-7px);
+        opacity: 1;
+      }
     }
 
     /* ─── Input area ─────────────────────────────────────── */
@@ -287,31 +398,46 @@
       max-height: 100px;
       line-height: 1.5;
     }
-    #messageInput::placeholder { color: var(--muted); }
+
+    #messageInput::placeholder {
+      color: var(--muted);
+    }
+
     #messageInput:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(124,111,247,0.15);
+      box-shadow: 0 0 0 3px rgba(124, 111, 247, 0.15);
     }
 
     #sendBtn {
-      width: 48px; height: 48px;
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
       border: none;
       background: var(--bubble-u);
       color: #fff;
       font-size: 20px;
       cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
       transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
-      box-shadow: 0 4px 20px rgba(124,111,247,0.4);
+      box-shadow: 0 4px 20px rgba(124, 111, 247, 0.4);
     }
+
     #sendBtn:hover:not(:disabled) {
       transform: scale(1.07);
-      box-shadow: 0 6px 28px rgba(124,111,247,0.55);
+      box-shadow: 0 6px 28px rgba(124, 111, 247, 0.55);
     }
-    #sendBtn:active:not(:disabled) { transform: scale(0.95); }
-    #sendBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    #sendBtn:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    #sendBtn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
 
     /* ─── Event cards ──────────────────────────────────── */
     .event-cards {
@@ -320,14 +446,15 @@
       gap: 8px;
       margin-top: 8px;
     }
+
     .event-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       font-size: 13px;
       font-weight: 600;
-      background: rgba(124,111,247,0.15);
-      border: 1px solid rgba(124,111,247,0.3);
+      background: rgba(124, 111, 247, 0.15);
+      border: 1px solid rgba(124, 111, 247, 0.3);
       color: #c4beff;
       padding: 5px 12px;
       border-radius: 24px;
@@ -346,244 +473,349 @@
       padding: 32px;
       color: var(--muted);
     }
-    .welcome-icon { font-size: 52px; margin-bottom: 6px; }
-    .welcome h2 { font-size: 20px; font-weight: 700; color: var(--text); }
-    .welcome p  { font-size: 13px; max-width: 300px; line-height: 1.7; }
+
+    .welcome-icon {
+      font-size: 52px;
+      margin-bottom: 6px;
+    }
+
+    .welcome h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .welcome p {
+      font-size: 13px;
+      max-width: 300px;
+      line-height: 1.7;
+    }
 
     /* ─── Error message ──────────────────────────────────── */
     .error-bubble {
-      background: rgba(248,113,113,0.1);
-      border: 1px solid rgba(248,113,113,0.3);
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.3);
       color: #fca5a5;
+    }
+
+    /* ─── Event cards (new) ───────────────────────────────── */
+    .event-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    .ec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .ec-name {
+      font-weight: 700;
+      color: #c4beff;
+      font-size: 14px;
+    }
+
+    .ec-type {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #7b82a8;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .ec-meta {
+      display: flex;
+      gap: 14px;
+      color: #9096b8;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .ec-desc {
+      color: #b0b7d6;
+      font-size: 12.5px;
+      line-height: 1.6;
+      margin-bottom: 6px;
+    }
+
+    .ec-extra {
+      font-size: 12px;
+      color: #9096b8;
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+
+    .ec-extra-label {
+      font-weight: 600;
+      color: #c4beff;
+      margin-right: 4px;
+    }
+
+    .ec-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge-label {
+      font-size: 11px;
+      color: #7b82a8;
+      font-weight: 600;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 10px;
+    }
+
+    .badge.open {
+      background: rgba(74, 222, 128, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .badge.closed {
+      background: rgba(248, 113, 113, 0.12);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.25);
+    }
+
+    .event-cards {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bot-text {
+      margin-bottom: 2px;
+    }
+
+    .bot-text:empty {
+      display: none;
+    }
+
+    ul {
+      padding-left: 18px;
+      margin: 4px 0;
+    }
+
+    li {
+      margin: 3px 0;
     }
   </style>
 </head>
+
 <body>
 
-<!-- Background blobs -->
-<div class="bg-blob a"></div>
-<div class="bg-blob b"></div>
-<div class="bg-blob c"></div>
+  <!-- Background blobs -->
+  <div class="bg-blob a"></div>
+  <div class="bg-blob b"></div>
+  <div class="bg-blob c"></div>
 
-<div class="app">
+  <div class="app">
 
-  <!-- ── Header ── -->
-  <header class="header">
-    <div class="header-avatar">🎓</div>
-    <div class="header-text">
-      <h1>EventBot</h1>
-      <p><span class="status-dot"></span>College Event Assistant</p>
+    <!-- ── Header ── -->
+    <header class="header">
+      <div class="header-avatar">🎓</div>
+      <div class="header-text">
+        <h1>EventBot</h1>
+        <p><span class="status-dot"></span>College Event Assistant</p>
+      </div>
+      <span class="header-badge">NLP Powered</span>
+    </header>
+
+    <!-- ── Suggestion chips ── -->
+    <div class="chips-area" id="chips">
+      <button class="chip" onclick="sendChip(this)">📋 Upcoming events</button>
+      <button class="chip" onclick="sendChip(this)">📝 Open registrations</button>
+      <button class="chip" onclick="sendChip(this)">🙋 Volunteer opportunities</button>
+      <button class="chip" onclick="sendChip(this)">📅 What's happening next?</button>
+      <button class="chip" onclick="sendChip(this)">✍️ How do I register?</button>
     </div>
-    <span class="header-badge">NLP Powered</span>
-  </header>
 
-  <!-- ── Suggestion chips ── -->
-  <div class="chips-area" id="chips">
-    <button class="chip" onclick="sendChip(this)">📋 Upcoming events</button>
-    <button class="chip" onclick="sendChip(this)">📝 Open registrations</button>
-    <button class="chip" onclick="sendChip(this)">🙋 Volunteer opportunities</button>
-    <button class="chip" onclick="sendChip(this)">📅 What's happening next?</button>
-    <button class="chip" onclick="sendChip(this)">✍️ How do I register?</button>
+    <!-- ── Messages ── -->
+    <main class="messages" id="messages">
+      <div class="welcome" id="welcome">
+        <div class="welcome-icon">🎉</div>
+        <h2>Hey there! I'm EventBot</h2>
+        <p>Ask me anything about college events — registrations, volunteer openings, or what's coming up!</p>
+      </div>
+    </main>
+
+    <!-- ── Input ── -->
+    <div class="input-area">
+      <textarea id="messageInput" rows="1" placeholder="Ask about events, registrations, volunteering…"></textarea>
+      <button id="sendBtn" onclick="sendMessage()" title="Send">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+
   </div>
 
-  <!-- ── Messages ── -->
-  <main class="messages" id="messages">
-    <div class="welcome" id="welcome">
-      <div class="welcome-icon">🎉</div>
-      <h2>Hey there! I'm EventBot</h2>
-      <p>Ask me anything about college events — registrations, volunteer openings, or what's coming up!</p>
-    </div>
-  </main>
+  <script>
+    const API_URL = 'http://127.0.0.1:8000/chat';
+    const messagesEl = document.getElementById('messages');
+    const inputEl = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const welcomeEl = document.getElementById('welcome');
+    let sessionId = null;
+    let firstMsg = true;
 
-  <!-- ── Input ── -->
-  <div class="input-area">
-    <textarea
-      id="messageInput"
-      rows="1"
-      placeholder="Ask about events, registrations, volunteering…"
-    ></textarea>
-    <button id="sendBtn" onclick="sendMessage()" title="Send">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor" stroke-width="2.5"
-           stroke-linecap="round" stroke-linejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"></line>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-      </svg>
-    </button>
-  </div>
-
-</div>
-
-<script>
-  const API_URL = "http://127.0.0.1:8000/chat";
-  const messagesEl = document.getElementById("messages");
-  const inputEl    = document.getElementById("messageInput");
-  const sendBtn    = document.getElementById("sendBtn");
-  const welcomeEl  = document.getElementById("welcome");
-  let   firstMsg   = true;
-
-  /* ── Auto-resize textarea ── */
-  inputEl.addEventListener("input", () => {
-    inputEl.style.height = "auto";
-    inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + "px";
-  });
-
-  /* ── Enter to send (Shift+Enter = newline) ── */
-  inputEl.addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  /* ── Chip shortcut ── */
-  function sendChip(btn) {
-    const text = btn.textContent.replace(/^[^\w]+/, "").trim();
-    inputEl.value = text;
-    sendMessage();
-  }
-
-  /* ── Main send flow ── */
-  async function sendMessage() {
-    const text = inputEl.value.trim();
-    if (!text) return;
-
-    if (firstMsg) {
-      welcomeEl.remove();
-      firstMsg = false;
-    }
-
-    appendMessage(text, "user");
-    inputEl.value = "";
-    inputEl.style.height = "auto";
-    sendBtn.disabled = true;
-
-    const typingRow = appendTyping();
-
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
-      });
-
-      if (!res.ok) throw new Error(`Server error: ${res.status}`);
-      const data = await res.json();
-      typingRow.remove();
-      appendBotMessage(data.response);
-    } catch (err) {
-      typingRow.remove();
-      appendBotMessage("⚠️ Couldn't reach the server. Make sure the FastAPI backend is running on port 8000.", true);
-    } finally {
-      sendBtn.disabled = false;
-      inputEl.focus();
-    }
-  }
-
-  /* ── Append a user message ── */
-  function appendMessage(text, role) {
-    const now  = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    const row  = document.createElement("div");
-    row.className = `msg-row ${role}`;
-
-    const avatar = document.createElement("div");
-    avatar.className = `msg-avatar ${role}`;
-    avatar.textContent = role === "user" ? "🧑" : "🎓";
-
-    const wrap = document.createElement("div");
-
-    const bubble = document.createElement("div");
-    bubble.className = `bubble ${role}`;
-    bubble.textContent = text;
-
-    const time  = document.createElement("span");
-    time.className = "bubble-time";
-    time.textContent = now;
-
-    wrap.appendChild(bubble);
-    wrap.appendChild(time);
-
-    row.appendChild(avatar);
-    row.appendChild(wrap);
-    messagesEl.appendChild(row);
-    scrollBottom();
-    return row;
-  }
-
-  /* ── Append a bot message (with smart formatting) ── */
-  function appendBotMessage(text, isError = false) {
-    const now  = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    const row  = document.createElement("div");
-    row.className = "msg-row bot-row";
-
-    const avatar = document.createElement("div");
-    avatar.className = "msg-avatar bot";
-    avatar.textContent = "🎓";
-
-    const wrap = document.createElement("div");
-
-    const bubble = document.createElement("div");
-    bubble.className = isError ? "bubble bot error-bubble" : "bubble bot";
-
-    /* ── Smart formatting: detect list-like responses ── */
-    if (!isError && (text.includes(":") && text.includes(","))) {
-      const [label, rest] = text.split(/:\s*/);
-      bubble.innerHTML = `<strong>${label}:</strong>`;
-      const events = rest.split(",").map(s => s.trim()).filter(Boolean);
-      const cards  = document.createElement("div");
-      cards.className = "event-cards";
-      events.forEach(ev => {
-        const tag = document.createElement("span");
-        tag.className = "event-tag";
-        tag.innerHTML = `🎯 ${ev}`;
-        cards.appendChild(tag);
-      });
-      bubble.appendChild(cards);
-    } else {
-      bubble.textContent = text;
-    }
-
-    const time = document.createElement("span");
-    time.className = "bubble-time";
-    time.textContent = now;
-
-    wrap.appendChild(bubble);
-    wrap.appendChild(time);
-    row.appendChild(avatar);
-    row.appendChild(wrap);
-    messagesEl.appendChild(row);
-    scrollBottom();
-    return row;
-  }
-
-  /* ── Typing indicator ── */
-  function appendTyping() {
-    const row = document.createElement("div");
-    row.className = "msg-row bot-row";
-
-    const avatar = document.createElement("div");
-    avatar.className = "msg-avatar bot";
-    avatar.textContent = "🎓";
-
-    const indicator = document.createElement("div");
-    indicator.className = "typing-indicator";
-    ["", "", ""].forEach(() => {
-      const d = document.createElement("div");
-      d.className = "dot";
-      indicator.appendChild(d);
+    inputEl.addEventListener('input', () => {
+      inputEl.style.height = 'auto';
+      inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
     });
 
-    row.appendChild(avatar);
-    row.appendChild(indicator);
-    messagesEl.appendChild(row);
-    scrollBottom();
-    return row;
-  }
+    inputEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    });
 
-  function scrollBottom() {
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-</script>
+    function sendChip(btn) {
+      inputEl.value = btn.textContent.replace(/^[^a-zA-Z0-9]+/, '').trim();
+      sendMessage();
+    }
+
+    // Render **bold**, *italic*, bullet lists, newlines
+    function renderMarkdown(text) {
+      return text
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/[*][*](.+?)[*][*]/g, '<strong>$1</strong>')
+        .replace(/[*]([^*\n]+?)[*]/g, '<em>$1</em>')
+        .replace(/^- (.+)$/gm, '<li>$1</li>')
+        .replace(/\n/g, '<br>');
+    }
+
+    // Build a single event card element
+    function buildEventCard(ev) {
+      var regBadge = ev.registration === 'open'
+        ? '<span class="badge open">&#10003; Open</span>'
+        : '<span class="badge closed">&#10005; Closed</span>';
+      var volBadge = ev.volunteer === 'yes'
+        ? '<span class="badge open">&#128113; Yes</span>'
+        : '<span class="badge closed">&#8212; No</span>';
+      var desc = ev.description
+        ? '<p class="ec-desc">' + ev.description + '</p>'
+        : '';
+      var prizeRow = ev.prize && ev.prize !== 'N/A'
+        ? '<div class="ec-extra"><span class="ec-extra-label">🏆 Prize</span> ' + ev.prize + '</div>'
+        : '';
+      var organizerRow = ev.organizer
+        ? '<div class="ec-extra"><span class="ec-extra-label">👤 Organizer</span> ' + ev.organizer + '</div>'
+        : '';
+      var capacityRow = ev.capacity
+        ? '<div class="ec-extra"><span class="ec-extra-label">👥 Capacity</span> ' + ev.capacity + '</div>'
+        : '';
+      return '<div class="event-card">'
+        + '<div class="ec-header">'
+        + '<span class="ec-name">' + ev.name + '</span>'
+        + '<span class="ec-type">' + (ev.type || '') + '</span>'
+        + '</div>'
+        + '<div class="ec-meta">'
+        + '<span>&#128197; ' + ev.date + '</span>'
+        + '<span>&#128336; ' + (ev.time || 'TBD') + '</span>'
+        + '<span>&#127963; ' + (ev.venue || 'TBD') + '</span>'
+        + '</div>'
+        + desc
+        + organizerRow
+        + capacityRow
+        + prizeRow
+        + '<div class="ec-badges">'
+        + '<span class="badge-label">Reg</span> ' + regBadge
+        + '&nbsp;&nbsp;<span class="badge-label">Vol</span> ' + volBadge
+        + '</div>'
+        + '</div>';
+    }
+
+
+    async function sendMessage() {
+      var text = inputEl.value.trim();
+      if (!text) return;
+      if (firstMsg) { welcomeEl.remove(); firstMsg = false; }
+      appendUserMessage(text);
+      inputEl.value = '';
+      inputEl.style.height = 'auto';
+      sendBtn.disabled = true;
+      var typingRow = appendTyping();
+      try {
+        var res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, session_id: sessionId })
+        });
+        if (!res.ok) throw new Error('Server error ' + res.status);
+        var data = await res.json();
+        sessionId = data.session_id;
+        typingRow.remove();
+        appendBotMessage(data, false);
+      } catch (err) {
+        typingRow.remove();
+        appendBotMessage({ response: '&#9888; Could not reach the server. Is the backend running on port 8000?', events: [] }, true);
+      } finally {
+        sendBtn.disabled = false;
+        inputEl.focus();
+      }
+    }
+
+    function appendUserMessage(text) {
+      var now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      var row = document.createElement('div');
+      row.className = 'msg-row user';
+      row.innerHTML = '<div class="msg-avatar user">&#129489;</div>'
+        + '<div><div class="bubble user">' + text.replace(/</g, '&lt;') + '</div>'
+        + '<span class="bubble-time">' + now + '</span></div>';
+      messagesEl.appendChild(row);
+      scrollBottom();
+    }
+
+    function appendBotMessage(data, isError) {
+      var now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      var row = document.createElement('div');
+      row.className = 'msg-row bot-row';
+      var cls = isError ? 'bubble bot error-bubble' : 'bubble bot';
+      var responseHtml = renderMarkdown(data.response || '');
+      var cardsHtml = '';
+      if (!isError && data.events && data.events.length > 0) {
+        cardsHtml = '<div class="event-cards">' + data.events.map(buildEventCard).join('') + '</div>';
+      }
+      row.innerHTML = '<div class="msg-avatar bot">&#127891;</div>'
+        + '<div><div class="' + cls + '">'
+        + '<div class="bot-text">' + responseHtml + '</div>'
+        + cardsHtml
+        + '</div><span class="bubble-time">' + now + '</span></div>';
+      messagesEl.appendChild(row);
+      scrollBottom();
+    }
+
+    function appendTyping() {
+      var row = document.createElement('div');
+      row.className = 'msg-row bot-row';
+      row.innerHTML = '<div class="msg-avatar bot">&#127891;</div>'
+        + '<div class="typing-indicator">'
+        + '<div class="dot"></div><div class="dot"></div><div class="dot"></div>'
+        + '</div>';
+      messagesEl.appendChild(row);
+      scrollBottom();
+      return row;
+    }
+
+    function scrollBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+  </script>
 
 </body>
+
 </html>
