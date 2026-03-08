@@ -87,7 +87,7 @@ it if available.
 
 Events are plain dictionaries. Required keys used by filters:
 
-```json
+``` json
 {
   "name": "Hackathon 2026",
   "date": "2026-03-10",
@@ -95,6 +95,8 @@ Events are plain dictionaries. Required keys used by filters:
   "registration": "open",
   "volunteer": "yes"
 }
+```
+
 Additional fields (time, venue, organizer, capacity, prize,
 description) enrich detail responses.
 _fmt_event() in app.py normalises missing fields for API output.
