@@ -189,17 +189,17 @@ fetch("/chat", {
 
 Possible improvements include:
 
-1. Event category filtering
+#### 1. Event category filtering
 
 Example:
 
 Any tech events?
-2. Date extraction
+#### 2. Date extraction
 
 Example:
 
 Events tomorrow
-3. Recommendation system
+#### 3. Recommendation system
 
 Suggest events based on:
 
@@ -207,7 +207,7 @@ user interests
 
 past queries
 
-4. Advanced NLP
+#### 4. Advanced NLP
 
 Possible upgrades:
 
@@ -230,7 +230,7 @@ Ensure API endpoints remain consistent
 Test queries using the /docs interface
 
 ## 11. Suggested Folder Structure
-CampusConnect/
+```CampusConnect/
 │
 ├── backend/
 │   ├── app.py
@@ -243,4 +243,4 @@ CampusConnect/
 │
 ├── requirements.txt
 ├── README.md
-└── .gitignore
+└── .gitignore```
