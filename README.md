@@ -1,10 +1,8 @@
-Development Guide for Contributors
+# Development Guide for Contributors
 
 This document provides implementation guidelines for extending the CampusConnect AI Event Chatbot. The goal is to implement the utilities described in the project abstract, including intent classification, structured data retrieval, and a conversational interface for event discovery. 
 
-NLP_abstract
-
-1. Project Architecture
+## 1. Project Architecture
 
 The system follows a three-layer architecture.
 
@@ -41,7 +39,7 @@ Stores event information in Google Sheets
 
 Provides dynamic updates without modifying backend code
 
-2. Development Environment Setup
+## 2. Development Environment Setup
 1. Clone the repository
 git clone <repo-url>
 cd CampusConnect
@@ -69,7 +67,8 @@ http://127.0.0.1:8000
 Interactive API documentation:
 
 http://127.0.0.1:8000/docs
-3. Event Data Schema
+
+## 3. Event Data Schema
 
 Event information should follow a consistent structure.
 
@@ -88,7 +87,7 @@ Recommended columns in Google Sheets:
 Event Name	Date	Category	Registration	Volunteer
 Hackathon	10 Mar	Tech	Open	Yes
 Music Night	12 Mar	Cultural	Closed	No
-4. Intent Classification Module
+## 4. Intent Classification Module
 
 Intent classification determines what the user wants to know about events.
 
@@ -122,7 +121,7 @@ Sentence embeddings
 
 transformer-based intent detection
 
-5. Event Retrieval Module
+## 5. Event Retrieval Module
 
 After detecting intent, the system retrieves relevant events.
 
@@ -136,7 +135,7 @@ Upcoming events
 
 Return all future events sorted by date.
 
-6. Google Sheets Integration
+## 6. Google Sheets Integration
 
 The backend should retrieve event data dynamically using the Google Sheets API.
 
@@ -152,7 +151,7 @@ Download the credentials JSON
 
 Share the Google Sheet with the service account email
 
-7. Chat Response Generation
+## 7. Chat Response Generation
 
 Responses should be clear and structured.
 
@@ -167,7 +166,7 @@ Response:
 Open registrations:
 • Hackathon (March 10)
 • AI Workshop (March 15)
-8. Frontend Chat Interface
+## 8. Frontend Chat Interface
 
 The frontend should:
 
@@ -186,7 +185,7 @@ fetch("/chat", {
   },
   body: JSON.stringify({ message: userMessage })
 })
-9. Future Enhancements
+## 9. Future Enhancements
 
 Possible improvements include:
 
@@ -218,7 +217,7 @@ BERT intent classification
 
 Named Entity Recognition (NER)
 
-10. Contribution Guidelines
+## 10. Contribution Guidelines
 
 When adding new features:
 
@@ -230,7 +229,7 @@ Ensure API endpoints remain consistent
 
 Test queries using the /docs interface
 
-11. Suggested Folder Structure
+## 11. Suggested Folder Structure
 CampusConnect/
 │
 ├── backend/
