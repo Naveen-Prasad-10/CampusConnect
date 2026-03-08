@@ -1,4 +1,4 @@
-ABSTRACT
+# ABSTRACT
 College event management often involves disseminating information across multiple plat
 forms, leading to fragmented communication and reduced student participation. Tradi
 tional approaches require students to manually search through various sources for up
@@ -19,8 +19,8 @@ niques with structured event management systems, providing an intelligent and ac
 platform that enhances student engagement and simplifies event discovery within the col
 lege ecosystem.
 
-Tech Stack
-• Programming Language: JavaScript, Python
-• Frameworks/Libraries: React (Vite), Flask/FastAPI, Pandas
-• Data Storage: Google Sheets API
-• NLP Techniques: Intent Classification, Keyword Matching
+# Tech Stack
+#### Programming Language: JavaScript, Python
+#### Frameworks/Libraries: React (Vite), Flask/FastAPI, Pandas
+#### Data Storage: Google Sheets API
+#### NLP Techniques: Intent Classification, Keyword Matching
