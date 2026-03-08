@@ -1,95 +1,106 @@
-# Development Guide for Contributors
+# CampusConnect – AI‑Powered College Event Chatbot  
+**Backend (FastAPI) · v2.0**  
+_Scoring‑based multi‑intent NLP with per‑session memory & structured replies_
 
-This document provides implementation guidelines for extending the CampusConnect AI Event Chatbot. The goal is to implement the utilities described in the project abstract, including intent classification, structured data retrieval, and a conversational interface for event discovery. 
+This README replaces the original development guide and reflects the
+current `app.py`. The core behaviour is implemented entirely within that
+file; many helper functions are annotated there.
 
+---
+
+## Features
+
+* Natural‑language chat via `POST /chat` with session IDs.
+* Multi‑intent scoring (e.g. “tech events with open registration”).
+* Entity extraction for specific event names (fuzzy matching, noise
+  stripping).
+* Context‑aware follow‑ups (remember the last set of events).
+* Rich replies with Markdown, randomised variants, time‑based greetings.
+* Session history endpoints (`GET`/`DELETE /history/{id}`).
+* Raw REST filter API for events (`GET /events` with query params).
+* Health probe and frontend static file serving (`GET /health`, `/`).
+
+---
+
+## Architecture
+Frontend (React + Vite) → FastAPI backend (app.py) → EVENTS list/data
 ## 1. Project Architecture
 
 The system follows a three-layer architecture.
 
-Frontend (React + Vite)
-        ↓
-Backend API (FastAPI)
-        ↓
-Intent Classification + Query Processing
-        ↓
-Event Database (Google Sheets)
-Component Responsibilities
 
-Frontend
+*Frontend*  
+– Chat UI that sends user messages to `/chat` and renders returned
+  `response` text and `events` array.
 
-Provides a chatbot-style interface
+*Backend*  
+– Normalises text, scores intents, extracts entities, builds responses.  
+– Maintains in‑memory `EVENTS` list (mocked; Google Sheets integration
+  can replace it later).  
+– Stores per‑session history in `chat_sessions` for context.
 
-Sends user queries to backend API
+*Data layer*  
+– Currently hard‑coded; each event is a dict with fields such as
+  `name`, `date`, `type`, `registration`, `volunteer`, plus optional
+  metadata (`venue`, `description`, etc.).
 
-Displays structured responses
+---
 
-Backend
+## Setup
 
-Processes user queries
+1. **Clone repository**
 
-Performs intent classification
+    ```powershell
+    git clone <repo-url>
+    cd CampusConnect
+    ```
 
-Retrieves event data
+2. **Create & activate virtualenv**
 
-Generates response messages
+    ```powershell
+    python -m venv venv
+    venv\Scripts\activate      # Windows
+    # or: source venv/bin/activate
+    ```
 
-Data Layer
+3. **Install dependencies**
 
-Stores event information in Google Sheets
+    ```powershell
+    pip install -r requirements.txt
+    ```
 
-Provides dynamic updates without modifying backend code
+4. **Run backend**
 
-## 2. Development Environment Setup
-1. Clone the repository
-git clone <repo-url>
-cd CampusConnect
-2. Create a virtual environment
-python -m venv venv
+    ```powershell
+    uvicorn app:app --reload
+    ```
 
-Activate it:
+Server: `http://127.0.0.1:8000`  
+Interactive docs: `http://127.0.0.1:8000/docs`
 
-Windows
+(Optional) install `python-dotenv` and add a `.env` file; `app.py` loads
+it if available.
 
-venv\Scripts\activate
+---
 
-Linux / Mac
+## Event schema
 
-source venv/bin/activate
+Events are plain dictionaries. Required keys used by filters:
 
-3. Install dependencies
-pip install -r requirements.txt
-
-4. Run the backend server
-
-```uvicorn app:app --reload```
-
-Server will start at:
-
-http://127.0.0.1:8000
-
-Interactive API documentation:
-
-http://127.0.0.1:8000/docs
-
-## 3. Event Data Schema
-
-Event information should follow a consistent structure.
-
-Example schema:
-
+```json
 {
-  "name": "AI Workshop",
-  "date": "2026-03-15",
+  "name": "Hackathon 2026",
+  "date": "2026-03-10",
   "type": "tech",
   "registration": "open",
   "volunteer": "yes"
 }
+Additional fields (time, venue, organizer, capacity, prize,
+description) enrich detail responses.
+_fmt_event() in app.py normalises missing fields for API output.
 
-Recommended columns in Google Sheets:
+When migrating to Google Sheets, use columns matching these keys.
 
-Event Name	Date	Category	Registration	Volunteer
-Hackathon	10 Mar	Tech	Open	Yes
-Music Night	12 Mar	Cultural	Closed	No
 ## 4. Intent Classification Module
 
 Intent classification determines what the user wants to know about events.
