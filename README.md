@@ -23,7 +23,7 @@ file; many helper functions are annotated there.
 ---
 
 ## Architecture
-Frontend (React + Vite) → FastAPI backend (app.py) → EVENTS list/data
+Frontend (HTML, CSS, JavaScript) → FastAPI Backend (app.py) → In-Memory Event Data
 ## 1. Project Architecture
 
 The system follows a three-layer architecture.
